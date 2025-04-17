@@ -1,0 +1,19 @@
+# Ignore Python/Django specific files
+*.pyc
+__pycache__/
+env/
+venv/
+*.sqlite3
+db.sqlite3
+
+# Ignore frontend build files
+/frontend/node_modules/
+/frontend/dist/
+/frontend/build/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
