@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
 
 class Responder(models.Model):
     RESPONDER_TYPES = [
@@ -9,7 +10,7 @@ class Responder(models.Model):
         ('admin', 'Administrator'),
     ]
     
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     responder_type = models.CharField(max_length=20, choices=RESPONDER_TYPES)
     license_number = models.CharField(max_length=50, blank=True)
     is_verified = models.BooleanField(default=False)
