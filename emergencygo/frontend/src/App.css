@@ -1,41 +1,67 @@
-.myBackground{
-  width:100vw;
+.myBackground {
+  width: 100vw;
   height: 100vh;
   display: flex;
   align-items: center;
-
   justify-content: center;
-  background: rgb(205,0,118);
-  background: linear-gradient(137deg, rgba(205,0,118,1) 0%, rgba(85,35,185,1) 68%); 
+  background: linear-gradient(135deg, #FFFFFF 0%, #FF4C4C 20%, #C51D34 45%, #2E2E30 80%);
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-.whiteBox{
+.whiteBox {
   background-color: white;
-  padding: 20px; 
-  min-width: 300px;
-  height: 70%;
-  width: 25%;
-  border: 1px solid #333;
+  padding: 25px;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+  margin: auto;
 }
 
-.itemBox{
+.itemBox {
   display: flex;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 80px;
+  min-height: 60px;
+  text-align: center;
 }
 
-.title{
-  font-size: 30px;
+.title {
+  font-size: 26px;
   color: #333;
 }
 
-.myForm, 
-.myButton{
+.myForm,
+.myButton {
   width: 100%;
 }
 
-.myButton{
-  background: rgb(66, 8, 160) !important;
+/*.myButton {*/
+  /*background: rgb(66, 8, 160) !important;*/
+  /*background: #E41A1C
+}*/
+
+.myButton {
+  background: #2E2E30 !important;
+}
+
+/* ID upload specific tweaks */
+.fileInputLabel {
+  font-size: 1.1rem;
+  font-weight: 500;
+  color: black;
+  margin-bottom: 8px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.fileInput {
+  color: grey;
+  width: 100%;
+  text-align: center;
 }

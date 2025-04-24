@@ -1,7 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.base_user import BaseUserManager
-
 from django_rest_passwordreset.signals import reset_password_token_created
 from django.dispatch import receiver 
 from django.urls import reverse 
@@ -29,12 +28,12 @@ class CustomUser(AbstractUser):
     email = models.EmailField(max_length=200, unique=True)
     birthday = models.DateField(null=True, blank=True)
     username = models.CharField(max_length=200, null=True, blank=True)
+    id_photo = models.ImageField(upload_to='id_photos/', null=True, blank=True)  # <- Added this line
 
     objects = CustomUserManager()
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-
 
 @receiver(reset_password_token_created)
 def password_reset_token_created(reset_password_token, *args, **kwargs):
