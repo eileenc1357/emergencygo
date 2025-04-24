@@ -55,7 +55,7 @@ def password_reset_token_created(reset_password_token, *args, **kwargs):
     msg = EmailMultiAlternatives(
         subject = "Request for resetting password for {title}".format(title=reset_password_token.user.email), 
         body=plain_message,
-        from_email = "sender@example.com", 
+        from_email = "2340group28@gmail.com", 
         to=[reset_password_token.user.email]
     )
 
