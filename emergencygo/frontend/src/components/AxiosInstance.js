@@ -8,8 +8,9 @@ const AxiosInstance = axios.create({
     headers:{
         "Content-Type":"application/json",
          accept: "application/json"
-    }
-})
+    },
+    withCredentials: true 
+});
 
 AxiosInstance.interceptors.request.use(
     (config) => {
@@ -22,7 +23,7 @@ AxiosInstance.interceptors.request.use(
         }
         return config;
     }
-)
+);
 
 AxiosInstance.interceptors.response.use(
     (response) => {
@@ -34,6 +35,6 @@ AxiosInstance.interceptors.response.use(
         }
 
     }
-)
+);
 
 export default AxiosInstance;

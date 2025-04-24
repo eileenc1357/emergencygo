@@ -38,21 +38,19 @@ class LoginViewset(viewsets.ViewSet):
         else:
             return Response(serializer.errors, status=400)
 
+
 class RegisterViewset(viewsets.ViewSet):
     permission_classes = [permissions.AllowAny]
-    renderer_classes = [JSONRenderer, BrowsableAPIRenderer]  # Enable web interface
-    
-    def create(self, request):
-        serializer = RegisterSerializer(data=request.data)
+    queryset = User.objects.all()
+    serializer_class = RegisterSerializer
+
+    def create(self,request):
+        serializer = self.serializer_class(data=request.data)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    def list(self, request):
-        # This will show the form when visiting /register/ in browser
-        serializer = RegisterSerializer()
-        return Response(serializer.data)
+            return Response(serializer.data)
+        else: 
+            return Response(serializer.errors,status=400)
 
 
 class UserViewset(viewsets.ViewSet):

@@ -13,14 +13,11 @@ class LoginSerializer(serializers.Serializer):
         return ret
 
 class RegisterSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
-        write_only=True,
-        style={'input_type': 'password'}  # This makes it show as a password field
-    )
-    email = serializers.EmailField(
-        style={'input_type': 'email'}  # This helps with email input formatting
-    )
-    
-    class Meta:
+    class Meta: 
         model = User
-        fields = ('email', 'password')
+        fields = ('id','email','password')
+        extra_kwargs = { 'password': {'write_only':True}}
+    
+    def create(self, validated_data):
+        user = User.objects.create_user(**validated_data)
+        return user

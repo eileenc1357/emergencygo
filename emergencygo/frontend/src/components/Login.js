@@ -15,22 +15,29 @@ const Login = () =>{
     const {handleSubmit, control} = useForm()
     const [ShowMessage, setShowMessage] = useState(false)
 
-    const submission = (data) => {
-        AxiosInstance.post(`login/`,{
-            email: data.email, 
-            password: data.password,
-        })
-
-        .then((response) => {
-            console.log(response)
-            localStorage.setItem('Token', response.data.token)
-            navigate(`/home`)
-        })
-        .catch((error) => {
-            setShowMessage(true)
-            console.error('Error during login', error)
-        })
-    }
+    const submission = async (data) => {
+        try {
+            const response = await AxiosInstance.post('login/', {
+                email: data.email, 
+                password: data.password,
+            });
+            
+            if (response.data.token) {
+                localStorage.setItem('Token', response.data.token);
+                navigate('/home');
+            } else {
+                setShowMessage(true);
+                console.error('Token missing in response');
+            }
+        } catch (error) {
+            setShowMessage(true);
+            console.error('Login error:', {
+                status: error.response?.status,
+                data: error.response?.data,
+                error: error.message
+            });
+        }
+    };
     
 
     return(
