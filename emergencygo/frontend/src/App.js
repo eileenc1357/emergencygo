@@ -8,6 +8,8 @@ import {Routes, Route, useLocation} from 'react-router-dom'
 import ProtectedRoute from './components/ProtectedRoutes'
 import PasswordResetRequest from './components/PasswordResetRequest'
 import PasswordReset from './components/PasswordReset'
+import EmergencyServices from './EmergencyServices';
+
 
 function App() {
   const location = useLocation()
@@ -31,6 +33,7 @@ function App() {
           <Routes>
             <Route element={<ProtectedRoute/>}> 
                 <Route path="/home" element={<Home/>}/>
+                <Route path="/emergency-services" element={<EmergencyServices />} />
             </Route>
           </Routes>
 

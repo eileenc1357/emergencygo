@@ -14,10 +14,10 @@ import ListItemText from '@mui/material/ListItemText';
 import InboxIcon from '@mui/icons-material/MoveToInbox';
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
-import {Link, useLocation} from 'react-router-dom'
+import {Link, useLocation, useNavigate} from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AxiosInstance from './AxiosInstance';
-import { useNavigate } from 'react-router-dom';
+import PhoneIcon from '@mui/icons-material/Phone';
 
 const drawerWidth = 240;
 
@@ -28,12 +28,11 @@ export default function Navbar(props) {
   const navigate = useNavigate()
 
   const logoutUser = () =>{
-     AxiosInstance.post(`logoutall/`,{
-     })
-     .then( () => {
+     AxiosInstance.post(`logoutall/`,{})
+      .then( () => {
         localStorage.removeItem("Token")
         navigate('/')
-     }
+      }
 
      )
   }
@@ -44,7 +43,7 @@ export default function Navbar(props) {
       <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
-            Clipped drawer
+            EmergencyGo
           </Typography>
         </Toolbar>
       </AppBar>
@@ -75,6 +74,13 @@ export default function Navbar(props) {
                         <InfoIcon /> 
                   </ListItemIcon>
                   <ListItemText primary={"About"} />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem key="emergency-services" disablePadding>
+                <ListItemButton component={Link} to="/emergency-services" selected={"/emergency-services" === path}>
+                  <ListItemIcon><PhoneIcon /></ListItemIcon> 
+                  <ListItemText primary="Emergency Services" />
                 </ListItemButton>
               </ListItem>
 
