@@ -9,6 +9,9 @@ import ProtectedRoute from './components/ProtectedRoutes'
 import PasswordResetRequest from './components/PasswordResetRequest'
 import PasswordReset from './components/PasswordReset'
 import EmergencyServices from './EmergencyServices';
+import EmergencyTutorials from './EmergencyTutorials';
+import NearbyEmergencyServices from './NearbyEmergencyServices';
+
 
 
 function App() {
@@ -34,6 +37,7 @@ function App() {
             <Route element={<ProtectedRoute/>}> 
                 <Route path="/home" element={<Home/>}/>
                 <Route path="/emergency-services" element={<EmergencyServices />} />
+                <Route path="/emergency-tutorials" element={<EmergencyTutorials />} />
             </Route>
           </Routes>
 

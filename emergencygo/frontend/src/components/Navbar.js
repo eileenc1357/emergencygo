@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
@@ -81,6 +80,13 @@ export default function Navbar(props) {
                 <ListItemButton component={Link} to="/emergency-services" selected={"/emergency-services" === path}>
                   <ListItemIcon><PhoneIcon /></ListItemIcon> 
                   <ListItemText primary="Emergency Services" />
+                </ListItemButton>
+              </ListItem>
+
+              <ListItem key="emergency-tutorials" disablePadding>
+                <ListItemButton component={Link} to="/emergency-tutorials" selected={"/emergency-tutorials" === path}>
+                  <ListItemIcon><InboxIcon /></ListItemIcon>
+                  <ListItemText primary="Emergency Tutorials" />
                 </ListItemButton>
               </ListItem>
 
