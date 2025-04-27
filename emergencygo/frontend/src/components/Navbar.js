@@ -76,6 +76,13 @@ export default function Navbar(props) {
                 </ListItemButton>
               </ListItem>
 
+              <ListItem key="nearby-emergency" disablePadding>
+                <ListItemButton component={Link} to="/nearby-services" selected={"/nearby-services" === path}>
+                  <ListItemIcon><PhoneIcon /></ListItemIcon>
+                  <ListItemText primary="Nearby Emergency Services" />
+                </ListItemButton>
+              </ListItem>
+
               <ListItem key="emergency-services" disablePadding>
                 <ListItemButton component={Link} to="/emergency-services" selected={"/emergency-services" === path}>
                   <ListItemIcon><PhoneIcon /></ListItemIcon> 
