@@ -26,6 +26,13 @@ const policeIcon = new L.Icon({
     popupAnchor: [0, -32],
 });
 
+const aedIcon = new L.Icon({
+    iconUrl: 'https://cdn-icons-png.flaticon.com/128/6019/6019004.png',
+    iconSize: [42, 42],
+    iconAnchor: [16, 32],
+    popupAnchor: [0, -32],
+  });
+
 function NearbyEmergencyServices() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -45,7 +52,9 @@ function NearbyEmergencyServices() {
   
     const hospitals = await getNearbyPlaces(south, west, north, east, 'hospital');
     const policeStations = await getNearbyPlaces(south, west, north, east, 'police');
-    setPlaces([...hospitals, ...policeStations]);
+    const aeds = await getNearbyPlaces(south, west, north, east, 'defibrillator', true); // notice second param "true"
+  
+    setPlaces([...hospitals, ...policeStations, ...aeds]);
   }, []);
 
   useEffect(() => {
@@ -61,7 +70,9 @@ function NearbyEmergencyServices() {
   
       const hospitals = await getNearbyPlaces(south, west, north, east, 'hospital');
       const policeStations = await getNearbyPlaces(south, west, north, east, 'police');
-      setPlaces([...hospitals, ...policeStations]);
+      const aeds = await getNearbyPlaces(south, west, north, east, 'defibrillator', true);
+
+      setPlaces([...hospitals, ...policeStations, ...aeds]);
       setLoading(false);
     };
   
@@ -105,6 +116,9 @@ function NearbyEmergencyServices() {
             if (place.tags.amenity === 'police') {
               customIcon = policeIcon;
             }
+            if (place.tags.emergency === 'defibrillator') {
+                customIcon = aedIcon;
+              }
             
             const lat = place.lat || (place.center && place.center.lat);
             const lon = place.lon || (place.center && place.center.lon);

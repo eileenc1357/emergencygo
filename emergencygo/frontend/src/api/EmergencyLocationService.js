@@ -2,13 +2,14 @@ import axios from 'axios';
 
 const OVERPASS_URL = 'https://overpass-api.de/api/interpreter';
 
-export const getNearbyPlaces = async (south, west, north, east, amenityType) => {
+export const getNearbyPlaces = async (south, west, north, east, type, isEmergency = false) => {
+    const key = isEmergency ? "emergency" : "amenity";
     const query = `
       [out:json];
       (
-        node["amenity"="${amenityType}"](${south},${west},${north},${east});
-        way["amenity"="${amenityType}"](${south},${west},${north},${east});
-        relation["amenity"="${amenityType}"](${south},${west},${north},${east});
+        node["${key}"="${type}"](${south},${west},${north},${east});
+        way["${key}"="${type}"](${south},${west},${north},${east});
+        relation["${key}"="${type}"](${south},${west},${north},${east});
       );
       out center;
     `;
