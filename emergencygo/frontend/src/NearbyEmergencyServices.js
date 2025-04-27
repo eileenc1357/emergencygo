@@ -135,7 +135,11 @@ function NearbyEmergencyServices() {
               >
                 <Popup>
                     <div>
-                        <h2 className="font-bold">{place.tags.name || 'Unnamed'}</h2>
+                        <h2 className="font-bold">
+                            {place.tags.name 
+                                ? place.tags.name 
+                                : (place.tags.emergency === 'defibrillator' ? 'Public AED' : 'Unnamed')}
+                        </h2>   
                         {/*
                         {place.tags['addr:street'] && <p>{place.tags['addr:street']}</p>}
                         {place.tags['addr:city'] && <p>{place.tags['addr:city']}</p>}

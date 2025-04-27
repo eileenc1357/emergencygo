@@ -17,6 +17,10 @@ import {Link, useLocation, useNavigate} from 'react-router-dom';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AxiosInstance from './AxiosInstance';
 import PhoneIcon from '@mui/icons-material/Phone';
+import PlaceIcon from '@mui/icons-material/Place';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import PhoneInTalkIcon from '@mui/icons-material/PhoneInTalk';
+import VideoLibraryIcon from '@mui/icons-material/VideoLibrary';
 
 const drawerWidth = 240;
 
@@ -78,21 +82,21 @@ export default function Navbar(props) {
 
               <ListItem key="nearby-emergency" disablePadding>
                 <ListItemButton component={Link} to="/nearby-services" selected={"/nearby-services" === path}>
-                  <ListItemIcon><PhoneIcon /></ListItemIcon>
+                  <ListItemIcon><PlaceIcon /></ListItemIcon>
                   <ListItemText primary="Nearby Emergency Services" />
                 </ListItemButton>
               </ListItem>
 
               <ListItem key="emergency-services" disablePadding>
                 <ListItemButton component={Link} to="/emergency-services" selected={"/emergency-services" === path}>
-                  <ListItemIcon><PhoneIcon /></ListItemIcon> 
+                  <ListItemIcon><PhoneInTalkIcon /></ListItemIcon> 
                   <ListItemText primary="Emergency Services" />
                 </ListItemButton>
               </ListItem>
 
               <ListItem key="emergency-tutorials" disablePadding>
                 <ListItemButton component={Link} to="/emergency-tutorials" selected={"/emergency-tutorials" === path}>
-                  <ListItemIcon><InboxIcon /></ListItemIcon>
+                  <ListItemIcon><VideoLibraryIcon /></ListItemIcon>
                   <ListItemText primary="Emergency Tutorials" />
                 </ListItemButton>
               </ListItem>
