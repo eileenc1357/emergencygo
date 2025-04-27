@@ -1,0 +1,70 @@
+EmergencyGo is a web application built with Django (backend) and React (frontend) that helps users:
+
+Report emergencies and call for help instantly
+
+View nearby hospitals, police stations, and AEDs on a dynamic map
+
+Contact emergency services via a quick access list
+
+Learn life-saving emergency procedures with video tutorials
+
+Receive emergency updates as a first responder (admin view)
+
+Mark themselves safe during crises
+
+Authenticate securely with ID verification during registration
+
+
+Technology Stack
+
+Frontend:
+
+React.js
+
+React Router DOM
+
+Axios
+
+Material UI (MUI) Components
+
+React Leaflet (maps)
+
+Backend:
+
+Django
+
+APIs & Libraries:
+
+OpenStreetMap (for map tiles)
+
+Overpass API (for location search)
+
+Google Maps links for directions
+
+Setup Instructions
+
+Backend (Django)
+
+cd backend
+pip install -r requirements.txt
+python manage.py makemigrations
+python manage.py migrate
+python manage.py runserver
+
+Frontend (React)
+
+cd frontend
+npm install
+npm start
+
+Note
+
+The map works best on Chrome and Safari browsers
+
+Make sure Django runs on localhost:8000
+
+Make sure React runs on localhost:3000
+
+Update CORS settings if needed in Django settings.
+
+Future Enhancements
