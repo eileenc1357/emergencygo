@@ -58,6 +58,8 @@ function NearbyEmergencyServices() {
   }, []);
 
   useEffect(() => {
+    setLoading(true); // Always reset loading when component remounts
+  
     const geoSuccess = async (position) => {
       const { latitude, longitude } = position.coords;
       setUserPosition([latitude, longitude]);
@@ -71,14 +73,14 @@ function NearbyEmergencyServices() {
       const hospitals = await getNearbyPlaces(south, west, north, east, 'hospital');
       const policeStations = await getNearbyPlaces(south, west, north, east, 'police');
       const aeds = await getNearbyPlaces(south, west, north, east, 'defibrillator', true);
-
+  
       setPlaces([...hospitals, ...policeStations, ...aeds]);
       setLoading(false);
     };
   
     const geoError = (error) => {
       console.error("Geolocation error:", error);
-      setLoading(false); // Even if geolocation fails, stop loading spinner
+      setLoading(false); // Stop spinner even on error
     };
   
     navigator.geolocation.getCurrentPosition(geoSuccess, geoError);
