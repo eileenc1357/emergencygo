@@ -33,6 +33,13 @@ const aedIcon = new L.Icon({
     popupAnchor: [0, -32],
   });
 
+const fetchAllEmergencyServices = async (south, west, north, east) => {
+    const hospitals = await getNearbyPlaces(south, west, north, east, 'hospital');
+    const policeStations = await getNearbyPlaces(south, west, north, east, 'police');
+    const aeds = await getNearbyPlaces(south, west, north, east, 'defibrillator', true);
+    return [...hospitals, ...policeStations, ...aeds];
+};
+
 function NearbyEmergencyServices() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -50,11 +57,8 @@ function NearbyEmergencyServices() {
     const north = northEast.lat;
     const east = northEast.lng;
   
-    const hospitals = await getNearbyPlaces(south, west, north, east, 'hospital');
-    const policeStations = await getNearbyPlaces(south, west, north, east, 'police');
-    const aeds = await getNearbyPlaces(south, west, north, east, 'defibrillator', true); // notice second param "true"
-  
-    setPlaces([...hospitals, ...policeStations, ...aeds]);
+    const places = await fetchAllEmergencyServices(south, west, north, east);
+    setPlaces(places);
   }, []);
 
   useEffect(() => {
@@ -70,11 +74,8 @@ function NearbyEmergencyServices() {
       const north = latitude + offset;
       const east = longitude + offset;
   
-      const hospitals = await getNearbyPlaces(south, west, north, east, 'hospital');
-      const policeStations = await getNearbyPlaces(south, west, north, east, 'police');
-      const aeds = await getNearbyPlaces(south, west, north, east, 'defibrillator', true);
-  
-      setPlaces([...hospitals, ...policeStations, ...aeds]);
+      const places = await fetchAllEmergencyServices(south, west, north, east);
+      setPlaces(places); 
       setLoading(false);
     };
   
