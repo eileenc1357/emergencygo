@@ -1,6 +1,7 @@
 from rest_framework import viewsets, permissions, status
-from rest_framework.decorators import action, api_view, permission_classes
+from rest_framework.decorators import action, api_view, permission_classes, authentication_classes
 from rest_framework.response import Response
+from knox.auth import TokenAuthentication
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
 from django.shortcuts import get_object_or_404
@@ -65,9 +66,12 @@ class AdminUserViewSet(viewsets.ModelViewSet):
 
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-@api_view(['POST'])
+#@authentication_classes([TokenAuthentication])
 @permission_classes([IsAdminUser])
+@api_view(['POST'])
 def ban_user(request):
+    print('user:', request.user)
+    print('auth:', request.auth)
     try:
         data = request.data
         email = data.get('email')
@@ -76,14 +80,7 @@ def ban_user(request):
         reason = data.get('reason', '')
 
         if not email or not username or not user_id:
-            return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
-
-        try:
-            user = User.objects.get(id=user_id, email=email, username=username)
-            user.is_active = False
-            user.save()
-        except User.DoesNotExist:
-            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+            return JsonResponse({'error': 'Missing required fields'}, status=400)
 
         BannedUser.objects.create(
             email=email,
@@ -91,8 +88,7 @@ def ban_user(request):
             user_id=user_id,
             reason=reason
         )
-
-        return Response({'message': 'User has been banned and deactivated'}, status=status.HTTP_201_CREATED)
+        return JsonResponse({'message': 'User has been banned'}, status=201)
 
     except Exception as e:
-        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        return JsonResponse({'error': str(e)}, status=500)

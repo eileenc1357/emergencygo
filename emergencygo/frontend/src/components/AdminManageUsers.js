@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import AxiosInstance from './AxiosInstance';
 import { useNavigate } from 'react-router-dom';
 import { Box, Button, Typography, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
@@ -35,16 +36,32 @@ function AdminManageUsers() {
     }
   };
 
-  const handleBan = async (id) => {
-    try {
-      await AxiosInstance.post('admin-tools/ban_user/', { user_id: id });
-      alert('User banned successfully!');
-      setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
-    } catch (error) {
-      console.error('Error banning user:', error.response?.data || error.message);
-    }
-  };
-  
+  // const handleBan = async (user) => {
+  //   console.log('BAN USER PAYLOAD:', user)  // Should log user.email, user.username, user.id
+
+  //   const token = localStorage.getItem('authToken')
+  //   try {
+  //     const response = await axios.post(
+  //       'http://localhost:8000/admin-tools/ban_user/',
+  //       {
+  //         email: user.email,
+  //         username: user.username,
+  //         user_id: user.id,
+  //         reason: 'Violation of policy'  // Or a dynamic reason
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: `Token ${token}`,
+  //           'Content-Type': 'application/json'
+  //         }
+  //       }
+  //     )
+  //     alert('User banned successfully!')
+  //   } catch (error) {
+  //     console.error('Error banning user:', error.response?.data || error.message)
+  //     alert('Error banning user: ' + (error.response?.data?.error || error.message))
+  //   }
+  // }
 
   const handleEdit = (id) => {
     navigate(`/admin/edit-user/${id}`);
@@ -101,9 +118,9 @@ function AdminManageUsers() {
                     <Button variant="contained" color="secondary" onClick={() => handleDelete(user.id)} sx={{ marginLeft: 2 }}>
                       Delete
                     </Button>
-                    <Button variant="contained" color="error" onClick={() => handleBan(user.id)} sx={{ marginLeft: 2 }}>
+                    {/* <Button variant="contained" color="error" onClick={() => handleBan(user.id)} sx={{ marginLeft: 2 }}>
                       Ban
-                    </Button>
+                    </Button> */}
                   </TableCell>
                 </TableRow>
               ))}

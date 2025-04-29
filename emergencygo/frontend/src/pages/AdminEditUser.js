@@ -16,12 +16,13 @@ const AdminEditUser = () => {
       try {
         const response = await axios.get(`/admin-tools/users/${id}/`, {
           headers: {
-            Authorization: `Token ${localStorage.getItem('token')}`,
+            Authorization: `Token ${localStorage.getItem('authToken')}`,  // ✅ Consistent token key
           },
         });
         setFormData({ email: response.data.email, password: '' });
       } catch (error) {
-        console.error(error);
+        console.error('Error fetching user:', error);
+        setMessage('Failed to fetch user data.');
       }
     };
 
@@ -34,16 +35,26 @@ const AdminEditUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const payload = { email: formData.email };
+    if (formData.password) {
+      payload.password = formData.password;
+    }
+
     try {
-      await axios.put(`/admin-tools/users/${id}/`, formData, {
+      await axios.put(`/admin-tools/users/${id}/`, payload, {
         headers: {
-          Authorization: `Token ${localStorage.getItem('token')}`,
+          Authorization: `Token ${localStorage.getItem('authToken')}`,  // ✅ Consistent token key
         },
       });
       setMessage('User updated successfully!');
     } catch (error) {
-      console.error(error);
-      setMessage('Error updating user.');
+      console.error('Update error:', {
+        message: error.message,
+        status: error.response?.status,
+        data: error.response?.data,
+      });
+      setMessage('Error updating user: ' + (error.response?.data?.detail || 'Unknown error'));
     }
   };
 
@@ -60,7 +71,7 @@ const AdminEditUser = () => {
 
           <div className="flex justify-between items-center">
             <span className="text-lg font-semibold">Current Password:</span>
-            <span className="text-gray-600">••••••••</span> {/* Mask password */}
+            <span className="text-gray-600">••••••••</span>
           </div>
         </div>
 
@@ -77,7 +88,7 @@ const AdminEditUser = () => {
             />
           </div>
           <div>
-            <label className="block text-lg font-medium">New Password (leave blank to keep current):</label>
+            <label className="block text-lg font-medium">New Password:</label>
             <input
               name="password"
               type="password"
@@ -94,7 +105,7 @@ const AdminEditUser = () => {
           </button>
         </form>
 
-        {message && <p className="mt-4 text-green-600">{message}</p>}
+        {message && <p className="mt-4 text-red-600">{message}</p>}
       </div>
     </div>
   );

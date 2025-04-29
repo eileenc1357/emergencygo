@@ -31,13 +31,29 @@ function AdminBanUser() {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
+    
+    console.log("Submitting ban form with:", formData)  // Debugging line
+  
+    const token = localStorage.getItem('authToken')  // Or sessionStorage, depending on your app
+  
     try {
-      const response = await axios.post('http://localhost:8000/admin-tools/ban_user/', formData)
+      const response = await axios.post(
+        'http://localhost:8000/admin-tools/ban_user/',
+        formData,
+        {
+          headers: {
+            Authorization: `Token ${token}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      )
       alert('User banned successfully!')
     } catch (error) {
+      console.error('Error banning user:', error.response?.data || error.message)
       alert('Error banning user: ' + (error.response?.data?.error || error.message))
     }
   }
+  
 
   // 🔐 Don't allow access if user isn't admin
   if (user && !user.is_staff && !user.is_superuser) {

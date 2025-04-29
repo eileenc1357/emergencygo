@@ -6,6 +6,7 @@ from emergencygo.views import ban_user, AdminUserViewSet
 from users import urls as users_urls  # Include the user URLs
 from django.conf import settings
 from django.conf.urls.static import static
+from users.views import LoginAPI
 
 # Create router and register viewsets
 router = DefaultRouter()
@@ -15,6 +16,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     # Auth and session management
+    path('login/', LoginAPI.as_view(), name='knox_login'),
     path('logout/', knox_views.LogoutView.as_view(), name='knox_logout'),
     path('logoutall/', knox_views.LogoutAllView.as_view(), name='knox_logoutall'),
 
