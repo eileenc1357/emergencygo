@@ -1,5 +1,5 @@
 from rest_framework import viewsets, permissions, status
-from rest_framework.decorators import action
+from rest_framework.decorators import action, api_view, permission_classes
 from rest_framework.response import Response
 from users.models import CustomUser
 from users.serializers import CustomUserSerializer
@@ -53,30 +53,46 @@ class AdminUserViewSet(viewsets.ModelViewSet):
     serializer_class = CustomUserSerializer
     permission_classes = [IsAdminUser]
 
-# 👇 add the ban_user function separately
-@csrf_exempt
-@user_passes_test(lambda u: u.is_staff or u.is_superuser)
+    def destroy(self, request, *args, **kwargs):
+        instance = self.get_object()
+
+        # Safely delete ID photo if it exists
+        if instance.id_photo:
+            instance.id_photo.delete(save=False)
+
+        # Delete the user
+        instance.delete()
+
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+@api_view(['POST'])
+@permission_classes([IsAdminUser])
 def ban_user(request):
-    if request.method == 'POST':
+    try:
+        data = request.data
+        email = data.get('email')
+        username = data.get('username')
+        user_id = data.get('user_id')
+        reason = data.get('reason', '')
+
+        if not email or not username or not user_id:
+            return Response({'error': 'Missing required fields'}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            data = json.loads(request.body)
-            email = data.get('email')
-            username = data.get('username')
-            user_id = data.get('user_id')
-            reason = data.get('reason', '')
+            user = User.objects.get(id=user_id, email=email, username=username)
+            user.is_active = False
+            user.save()
+        except User.DoesNotExist:
+            return Response({'error': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
 
-            if not email or not username or not user_id:
-                return JsonResponse({'error': 'Missing required fields'}, status=400)
+        BannedUser.objects.create(
+            email=email,
+            username=username,
+            user_id=user_id,
+            reason=reason
+        )
 
-            BannedUser.objects.create(
-                email=email,
-                username=username,
-                user_id=user_id,
-                reason=reason
-            )
-            return JsonResponse({'message': 'User has been banned'}, status=201)
+        return Response({'message': 'User has been banned and deactivated'}, status=status.HTTP_201_CREATED)
 
-        except Exception as e:
-            return JsonResponse({'error': str(e)}, status=500)
-    else:
-        return JsonResponse({'error': 'Invalid method'}, status=405)
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

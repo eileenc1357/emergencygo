@@ -37,13 +37,14 @@ function AdminManageUsers() {
 
   const handleBan = async (id) => {
     try {
-      await AxiosInstance.post(`admin-tools/users/${id}/ban/`);
+      await AxiosInstance.post('admin-tools/ban_user/', { user_id: id });
       alert('User banned successfully!');
       setUsers(prevUsers => prevUsers.filter(user => user.id !== id));
     } catch (error) {
-      console.error('Error banning user:', error);
+      console.error('Error banning user:', error.response?.data || error.message);
     }
   };
+  
 
   const handleEdit = (id) => {
     navigate(`/admin/edit-user/${id}`);
