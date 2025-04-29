@@ -1,6 +1,6 @@
 import '../App.css'
 import React, { useState } from 'react'
-import { Box } from '@mui/material'
+import { Box, Typography, Button } from '@mui/material';
 import MyTextField from './forms/MyTextField'
 import MyPassField from './forms/MyPassField'
 import MyButton from './forms/MyButton'
@@ -32,7 +32,7 @@ const Login = () => {
                     const user = userResponse.data;
                     
                     setUser(user);  // 👈 STORE USER GLOBALLY
-
+                    console.log("Fetched user:", user);
                     if (user.is_superuser || user.is_staff) {
                         navigate('/admin/manage');
                     } else {
@@ -58,46 +58,58 @@ const Login = () => {
 
     return (
         <div className={"myBackground"}>
-            {ShowMessage ? <MyMessage text={"Login has failed, please try again, or reset your password"} color={'#EC5A76'} /> : null}
-            <form onSubmit={handleSubmit(submission)}>
-                <Box className={"whiteBox"}>
+             <Box
+                sx={{
+                textAlign: 'center',
+                mt: 4,
+                mb: 8,
+                mr: 30,
+                }}
+            >
+                <Typography
+                variant="h1"
+                sx={{
+                    fontWeight: 'bold',
+                    color: '#fff',
+                    fontSize: { xs: '3rem', sm: '4rem', md: '6rem' },
+                }}
+                >
+                EmergencyGO
+                </Typography>
+            </Box>
+            {ShowMessage && (
+        <MyMessage
+          text="Login has failed, please try again, or reset your password"
+          color="#EC5A76"
+        />
+      )}
 
-                    <Box className={"itemBox"}>
-                        <Box className={"title"}> Login for Auth App </Box>
-                    </Box>
+      <form onSubmit={handleSubmit(submission)}>
+        <Box className="whiteBox">
+          <Box className="itemBox">
+            <Box className="title">Login for Auth App</Box>
+          </Box>
 
-                    <Box className={"itemBox"}>
-                        <MyTextField
-                            label={"Email"}
-                            name={"email"}
-                            control={control}
-                        />
-                    </Box>
+          <Box className="itemBox">
+            <MyTextField label="Email" name="email" control={control} />
+          </Box>
 
-                    <Box className={"itemBox"}>
-                        <MyPassField
-                            label={"Password"}
-                            name={"password"}
-                            control={control}
-                        />
-                    </Box>
+          <Box className="itemBox">
+            <MyPassField label="Password" name="password" control={control} />
+          </Box>
 
-                    <Box className={"itemBox"}>
-                        <MyButton
-                            label={"Login"}
-                            type={"submit"}
-                        />
-                    </Box>
+          <Box className="itemBox">
+            <MyButton label="Login" type="submit" />
+          </Box>
 
-                    <Box className={"itemBox"} sx={{ flexDirection: 'column' }}>
-                        <Link to="/register"> No account yet? Please register! </Link>
-                        <Link to="/request/password_reset"> Password forgotten? Click here </Link>
-                    </Box>
+          <Box className="itemBox" sx={{ flexDirection: 'column' }}>
+            <Link to="/register">No account yet? Please register!</Link>
+            <Link to="/request/password_reset">Password forgotten? Click here</Link>
+          </Box>
+        </Box>
+      </form>
+    </div>
+  );
+};
 
-                </Box>
-            </form>
-        </div>
-    )
-}
-
-export default Login
+export default Login;

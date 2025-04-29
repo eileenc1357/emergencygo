@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import Layout from './components/Layout';
+import AxiosInstance from './components/AxiosInstance';
 
 delete L.Icon.Default.prototype._getIconUrl;
 
@@ -45,6 +46,7 @@ function NearbyEmergencyServices() {
   const [places, setPlaces] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userPosition, setUserPosition] = useState(null);
+  const [safetyRating, setSafetyRating] = useState(null);
 
   const handleMoveEnd = useCallback(async (event) => {
     const map = event.target;
@@ -77,6 +79,21 @@ function NearbyEmergencyServices() {
   
       const places = await fetchAllEmergencyServices(south, west, north, east);
       setPlaces(places); 
+            
+      try {
+        const response = await AxiosInstance.get(`emergency/emergencies-nearby/?lat=${latitude}&lon=${longitude}`);
+        const count = response.data.count;
+        if (count === 0) {
+          setSafetyRating("Safe (0 reports nearby)");
+        } else if (count <= 3) {
+          setSafetyRating("Caution (<=3 reports nearby)");
+        } else {
+          setSafetyRating("Danger (>3 reports nearby)");
+        }
+      } catch (error) {
+        console.error('Error fetching nearby emergencies:', error);
+      }
+
       setLoading(false);
     };
   
@@ -100,6 +117,18 @@ function NearbyEmergencyServices() {
     <Layout>
       <div className="p-4 max-w-7xl mx-auto">
         <h1 className="text-2xl font-bold mb-4">Nearby Emergency Services</h1>
+
+        {safetyRating && (
+          <div className="text-lg font-semibold mb-4">
+            Safety Rating:
+            <span style={{
+              color: safetyRating === 'Safe' ? 'green' : (safetyRating === 'Caution' ? 'orange' : 'red'),
+              marginLeft: '8px'
+            }}>
+              {safetyRating}
+            </span>
+          </div>
+        )}
 
         {userPosition ? (
           <MapContainer

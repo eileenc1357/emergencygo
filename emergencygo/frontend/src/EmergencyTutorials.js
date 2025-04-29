@@ -1,11 +1,15 @@
 import React from 'react';
+import Box from '@mui/material/Box';
 import Accordion from '@mui/material/Accordion';
 import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import Layout from './components/Layout';
-
+import List from '@mui/material/List';
+import ListItem from '@mui/material/ListItem';
+import Link from '@mui/material/Link';
+import Paper from '@mui/material/Paper';
+import PlayCircleOutlineIcon from '@mui/icons-material/PlayCircleOutline';
 
 const tutorials = [
   {
@@ -33,29 +37,71 @@ const tutorials = [
 
 function EmergencyTutorials() {
   return (
-    <Layout>
-      <div className="p-4 max-w-5xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Emergency Procedure Tutorials</h1>
+    <Box sx={{ 
+      padding: 4, 
+      maxWidth: 900, 
+      margin: '40px auto', 
+      backgroundColor: '#fff', 
+      borderRadius: 2, 
+      boxShadow: 2 
+    }}>
+      <Typography 
+        variant="h4" 
+        sx={{ fontWeight: 'bold', mb: 4, textAlign: 'center', color: '#b71c1c' }}
+      >
+        Emergency Procedure Tutorials
+      </Typography>
       {tutorials.map((section, index) => (
-        <Accordion key={index} sx={{ marginBottom: 2 }}>
-          <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-            <Typography variant="h6">{section.category}</Typography>
+        <Accordion 
+          key={index} 
+          sx={{ 
+            mb: 2, 
+            borderRadius: 2, 
+            '&:before': { display: 'none' } // Remove default divider line
+          }}
+        >
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon sx={{ color: '#fff' }} />}
+            sx={{ 
+              backgroundColor: '#b71c1c', 
+              color: '#fff', 
+              borderRadius: 2, 
+              padding: '0 16px',
+              minHeight: '56px',
+              '& .MuiAccordionSummary-content': { margin: '12px 0' }
+            }}
+          >
+            <Typography variant="h6" sx={{ fontWeight: 'medium' }}>
+              {section.category}
+            </Typography>
           </AccordionSummary>
-          <AccordionDetails>
-            <ul className="list-disc pl-5 space-y-2">
-              {section.videos.map((video, idx) => (
-                <li key={idx}>
-                  <a href={video.url} target="_blank" rel="noopener noreferrer" className="text-blue-600 underline">
-                    {video.title}
-                  </a>
-                </li>
-              ))}
-            </ul>
+          <AccordionDetails sx={{ 
+            backgroundColor: '#f7f7f7', 
+            borderRadius: '0 0 8px 8px', 
+            padding: 2 
+          }}>
+            <Paper elevation={0} sx={{ padding: 2, backgroundColor: 'transparent' }}>
+              <List>
+                {section.videos.map((video, idx) => (
+                  <ListItem key={idx} sx={{ pl: 0, display: 'flex', alignItems: 'center', mb: 1 }}>
+                    <PlayCircleOutlineIcon sx={{ color: '#1976d2', mr: 1 }} />
+                    <Link 
+                      href={video.url} 
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                      underline="hover"
+                      sx={{ color: '#1976d2', fontWeight: 500, fontSize: '1rem' }}
+                    >
+                      {video.title}
+                    </Link>
+                  </ListItem>
+                ))}
+              </List>
+            </Paper>
           </AccordionDetails>
-          </Accordion>
-        ))}
-      </div>
-    </Layout>
+        </Accordion>
+      ))}
+    </Box>
   );
 }
 

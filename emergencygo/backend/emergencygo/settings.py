@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'adminpanel',
     'emergencies',
     'responders',
+    'emergencyreport',
 ]
 
 MIDDLEWARE = [
