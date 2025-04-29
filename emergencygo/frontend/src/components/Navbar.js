@@ -49,6 +49,16 @@ export default function Navbar({ content, user }) {
           >
             Report Emergency
           </Button>
+          {(user?.is_staff || user?.is_superuser) && (
+            <Button
+              color="inherit"
+              component={NavLink}
+              to="/view-emergencies"
+              sx={{ '&.active': { fontWeight: 'bold', textDecoration: 'underline' } }}
+            >
+             View Emergencies
+            </Button>
+          )}
           <Button
             color="inherit"
             component={NavLink}
