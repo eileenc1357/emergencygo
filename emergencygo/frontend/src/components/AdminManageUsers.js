@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import AxiosInstance from './AxiosInstance';
 import { useNavigate } from 'react-router-dom';
-import { Box, Button, Typography, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material'; // Material-UI imports
+import { Box, Button, Typography, Table, TableHead, TableRow, TableCell, TableBody } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 function AdminManageUsers() {
   const [users, setUsers] = useState([]);
@@ -50,7 +51,7 @@ function AdminManageUsers() {
 
   return (
     <Box sx={{ padding: 3 }}>
-      <Typography variant="h4" gutterBottom sx={{ marginLeft: '240px' }}> {/* Added marginLeft here */}
+      <Typography variant="h4" gutterBottom sx={{ marginLeft: '240px' }}>
         Manage Users
       </Typography>
       {loading ? (
@@ -59,19 +60,39 @@ function AdminManageUsers() {
         <p>No users found.</p>
       ) : (
         <Box sx={{ overflowX: 'auto', marginLeft: '240px' }}>
-          <Table sx={{ minWidth: 650 }}>
-            <TableHead>
+          <Table sx={{ minWidth: 750 }}>
+            <TableHead sx={{ backgroundColor: 'grey' }}>
               <TableRow>
-                <TableCell>Username</TableCell>
                 <TableCell>Email</TableCell>
+                <TableCell>Photo ID</TableCell>
+                <TableCell>Banned</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
               {users.map(user => (
                 <TableRow key={user.id}>
-                  <TableCell>{user.username !== null ? user.username : 'No Username'}</TableCell>
                   <TableCell>{user.email || 'No Email'}</TableCell>
+                  <TableCell>
+                    {user.id_photo ? (
+                      <Button 
+                        variant="contained" 
+                        onClick={() => window.open(user.id_photo, '_blank')}
+                        sx={{ backgroundColor: '#2E2E30', color: 'white', textTransform: 'none', fontSize: '0.8rem' }}
+                      >
+                        View
+                      </Button>
+                    ) : (
+                      'No ID'
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {user.is_banned ? (
+                      <span style={{ color: 'red', fontWeight: 'bold' }}>Yes</span>
+                    ) : (
+                      <span style={{ color: 'green', fontWeight: 'bold' }}>No</span>
+                    )}
+                  </TableCell>
                   <TableCell>
                     <Button variant="contained" color="primary" onClick={() => handleEdit(user.id)}>
                       Edit

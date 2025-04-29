@@ -15,38 +15,43 @@ class IsAdminUser(permissions.BasePermission):
     def has_permission(self, request, view):
         return request.user and (request.user.is_staff or request.user.is_superuser)
 
-class AdminUserViewSet(viewsets.ViewSet):
+# class AdminUserViewSet(viewsets.ViewSet):
+#     permission_classes = [IsAdminUser]
+
+#     def list(self, request):
+#         users = CustomUser.objects.all()
+#         serializer = CustomUserSerializer(users, many=True)
+#         return Response(serializer.data)
+
+#     def create(self, request):
+#         serializer = CustomUserSerializer(data=request.data)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     def retrieve(self, request, pk=None):
+#         user = get_object_or_404(CustomUser, pk=pk)
+#         serializer = CustomUserSerializer(user)
+#         return Response(serializer.data)
+
+#     def update(self, request, pk=None):
+#         user = get_object_or_404(CustomUser, pk=pk)
+#         serializer = CustomUserSerializer(user, data=request.data, partial=True)
+#         if serializer.is_valid():
+#             serializer.save()
+#             return Response(serializer.data)
+#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+#     def destroy(self, request, pk=None):
+#         user = get_object_or_404(CustomUser, pk=pk)
+#         user.delete()
+#         return Response(status=status.HTTP_204_NO_CONTENT)
+
+class AdminUserViewSet(viewsets.ModelViewSet):
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
     permission_classes = [IsAdminUser]
-
-    def list(self, request):
-        users = CustomUser.objects.all()
-        serializer = CustomUserSerializer(users, many=True)
-        return Response(serializer.data)
-
-    def create(self, request):
-        serializer = CustomUserSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def retrieve(self, request, pk=None):
-        user = get_object_or_404(CustomUser, pk=pk)
-        serializer = CustomUserSerializer(user)
-        return Response(serializer.data)
-
-    def update(self, request, pk=None):
-        user = get_object_or_404(CustomUser, pk=pk)
-        serializer = CustomUserSerializer(user, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def destroy(self, request, pk=None):
-        user = get_object_or_404(CustomUser, pk=pk)
-        user.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
 
 # 👇 add the ban_user function separately
 @csrf_exempt

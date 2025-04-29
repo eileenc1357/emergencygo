@@ -76,18 +76,6 @@ export default function Navbar(props) {
               </ListItemButton>
             </ListItem>
 
-            {/* Conditionally render "Ban User" link for admin users */}
-            {user?.is_staff || user?.is_superuser ? (
-              <ListItem key={4} disablePadding>
-                <ListItemButton component={Link} to="/admin/ban" selected={"/admin/ban" === path}>
-                  <ListItemIcon>
-                    <LogoutIcon />
-                  </ListItemIcon>
-                  <ListItemText primary={"Ban User"} />
-                </ListItemButton>
-              </ListItem>
-            ) : null}
-
               <ListItem key="nearby-emergency" disablePadding>
                 <ListItemButton component={Link} to="/nearby-services" selected={"/nearby-services" === path}>
                   <ListItemIcon><PlaceIcon /></ListItemIcon>

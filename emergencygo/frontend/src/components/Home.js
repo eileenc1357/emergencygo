@@ -2,6 +2,7 @@ import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, 
 import AxiosInstance from './AxiosInstance';
 import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import Layout from './Layout';
 
 const Home = () => {
   const [allUsers, setAllUsers] = useState([]);
@@ -49,7 +50,8 @@ const Home = () => {
   }
 
   return (
-    <div>
+    <Layout>
+      <div>
       {/* Users Table */}
       <TableContainer component={Paper} sx={{ mt: 4 }}>
         <Table sx={{ minWidth: 650 }} aria-label="users table">
@@ -85,6 +87,7 @@ const Home = () => {
         </Box>
       ) : null}
     </div>
+    </Layout>
   );
 };
 

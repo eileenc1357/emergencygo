@@ -50,12 +50,28 @@ class RegisterViewset(viewsets.ViewSet):
         if email and BannedUser.objects.filter(email=email).exists():
             return Response({"error": "You are permanently banned from this service."}, status=403)
 
+        print("Request Data:", request.data)  # Debugging: Check what data is coming in
+
+        # Check if id_photo is in the request data (debugging)
+        if 'id_photo' not in request.data:
+            print("No id_photo field in the request data.")
+        
+        # Now, validate the data with the serializer
         serializer = self.serializer_class(data=request.data)
+
+        # Check if the serializer is valid
         if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
+            # Save the new user instance (including the file)
+            user = serializer.save()
+
+            # Debugging: Check if the user and photo are saved correctly
+            print("Created user:", user)
+            print("User ID Photo URL:", user.id_photo.url if user.id_photo else "No Photo")
+
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=400)
+            print("Serializer Errors:", serializer.errors)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class UserViewset(viewsets.ViewSet):
     permission_classes = [permissions.IsAuthenticated]
@@ -74,7 +90,6 @@ class UserViewset(viewsets.ViewSet):
         user_data = {
             'id': user.id,
             'email': user.email,
-            'username': user.username,
             'id_photo_url': user.id_photo.url if user.id_photo else None,
             'is_staff': user.is_staff,
             'is_superuser': user.is_superuser
@@ -85,16 +100,14 @@ class UserViewset(viewsets.ViewSet):
 # Existing view for fetching user data based on query parameters (email, username, or user_id)
 def get_user_info(request):
     email = request.GET.get('email')
-    username = request.GET.get('username')
     user_id = request.GET.get('user_id')
 
     try:
         user = CustomUser.objects.get(
-            **{k: v for k, v in {'email': email, 'username': username, 'id': user_id}.items() if v}
+            **{k: v for k, v in {'email': email, 'id': user_id}.items() if v}
         )
         return JsonResponse({
             'email': user.email,
-            'username': user.username,
             'id': user.id,
             'id_photo_url': user.id_photo.url if user.id_photo else None
         })

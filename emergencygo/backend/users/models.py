@@ -27,9 +27,7 @@ class CustomUserManager(BaseUserManager):
 class CustomUser(AbstractUser):
     email = models.EmailField(max_length=200, unique=True)
     birthday = models.DateField(null=True, blank=True)
-    usernmae = None
-    # username = models.CharField(max_length=200, null=True, blank=True)
-    id_photo = models.ImageField(upload_to='id_photos/', null=True, blank=True)  # <- Added this line
+    id_photo = models.ImageField(upload_to='id_photos/', null=True, blank=True)
 
     objects = CustomUserManager()
 
@@ -69,7 +67,7 @@ def password_reset_token_created(reset_password_token, *args, **kwargs):
 
 class BannedUser(models.Model):
     email = models.EmailField(unique=True)
-    username = models.CharField(max_length=150)
+    #username = models.CharField(max_length=150)
     user_id = models.CharField(max_length=255)  # UUID or numeric ID
     reason = models.TextField(blank=True, null=True)
     banned_at = models.DateTimeField(auto_now_add=True)

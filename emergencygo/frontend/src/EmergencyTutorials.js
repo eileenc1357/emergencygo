@@ -4,6 +4,8 @@ import AccordionSummary from '@mui/material/AccordionSummary';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import Typography from '@mui/material/Typography';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import Layout from './components/Layout';
+
 
 const tutorials = [
   {
@@ -31,7 +33,8 @@ const tutorials = [
 
 function EmergencyTutorials() {
   return (
-    <div className="p-4 max-w-5xl mx-auto">
+    <Layout>
+      <div className="p-4 max-w-5xl mx-auto">
       <h1 className="text-3xl font-bold mb-6">Emergency Procedure Tutorials</h1>
       {tutorials.map((section, index) => (
         <Accordion key={index} sx={{ marginBottom: 2 }}>
@@ -49,9 +52,10 @@ function EmergencyTutorials() {
               ))}
             </ul>
           </AccordionDetails>
-        </Accordion>
-      ))}
-    </div>
+          </Accordion>
+        ))}
+      </div>
+    </Layout>
   );
 }
 

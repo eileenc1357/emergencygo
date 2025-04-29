@@ -1,4 +1,5 @@
 import React from 'react';
+import Layout from './components/Layout';
 
 function EmergencyServices() {
   const services = [
@@ -71,7 +72,8 @@ function EmergencyServices() {
   ];
 
   return (
-    <div className="p-4 max-w-3xl mx-auto">
+    <Layout>
+      <div className="p-4 max-w-3xl mx-auto">
       <h1 className="text-2xl font-bold mb-4">Emergency Services</h1>
       <ul className="space-y-4">
         {services.map(service => (
@@ -82,9 +84,10 @@ function EmergencyServices() {
               📞 {service.contact_number}
             </a>
           </li>
-        ))}
-      </ul>
-    </div>
+          ))}
+        </ul>
+      </div>
+    </Layout>
   );
 }
 

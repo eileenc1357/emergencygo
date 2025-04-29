@@ -1,24 +1,16 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser
+from django.utils.html import format_html
 
-class CustomUserAdmin(UserAdmin):
-    model = CustomUser
-    list_display = ('email', 'birthday', 'is_staff', 'is_active', 'is_superuser')
-    list_filter = ('is_staff', 'is_active', 'is_superuser')
-    search_fields = ('email',)
-    ordering = ('email',)
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('email', 'is_staff', 'is_superuser', 'id_photo_tag')
 
-    fieldsets = (
-        (None, {'fields': ('email', 'password', 'birthday', 'id_photo')}),
-        ('Permissions', {'fields': ('is_staff', 'is_active', 'is_superuser', 'groups', 'user_permissions')}),
-    )
+    def id_photo_tag(self, obj):
+        # Debugging: log the file path or None
+        print(f"ID Photo: {obj.id_photo}")  # This will show None if there's no file
+        if obj.id_photo and hasattr(obj.id_photo, 'url'):  # Check if there's a file and URL exists
+            return format_html('<img src="{}" style="max-height: 100px;" />', obj.id_photo.url)
+        return "No Photo"
+    id_photo_tag.short_description = 'Photo ID'
 
-    add_fieldsets = (
-        (None, {
-            'classes': ('wide',),
-            'fields': ('email', 'password1', 'password2', 'birthday', 'id_photo', 'is_staff', 'is_active', 'is_superuser')}
-        ),
-    )
-
-admin.site.register(CustomUser, CustomUserAdmin)
