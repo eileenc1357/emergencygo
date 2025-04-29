@@ -61,3 +61,15 @@ def password_reset_token_created(reset_password_token, *args, **kwargs):
 
     msg.attach_alternative(html_message, "text/html")
     msg.send()
+
+
+class BannedUser(models.Model):
+    email = models.EmailField(unique=True)
+    username = models.CharField(max_length=150)
+    user_id = models.CharField(max_length=255)  # UUID or numeric ID
+    reason = models.TextField(blank=True, null=True)
+    banned_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.email} banned on {self.banned_at}"
+
