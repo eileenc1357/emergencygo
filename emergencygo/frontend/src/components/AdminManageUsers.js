@@ -63,10 +63,10 @@ function AdminManageUsers() {
           <Table sx={{ minWidth: 750 }}>
             <TableHead sx={{ backgroundColor: 'grey' }}>
               <TableRow>
-                <TableCell>Email</TableCell>
-                <TableCell>Photo ID</TableCell>
-                <TableCell>Banned</TableCell>
-                <TableCell>Actions</TableCell>
+                <TableCell sx={{ backgroundColor: '#b71c1c', color: 'white', fontWeight: 'bold' }}>Email</TableCell>
+                <TableCell sx={{ backgroundColor: '#b71c1c', color: 'white', fontWeight: 'bold' }}>Photo ID</TableCell>
+                <TableCell sx={{ backgroundColor: '#b71c1c', color: 'white', fontWeight: 'bold' }}>Banned</TableCell>
+                <TableCell sx={{ backgroundColor: '#b71c1c', color: 'white', fontWeight: 'bold' }}>Actions</TableCell>
               </TableRow>
             </TableHead>
             <TableBody>
