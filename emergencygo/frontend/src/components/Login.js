@@ -32,7 +32,7 @@ const Login = () => {
                     const user = userResponse.data;
                     
                     setUser(user);  // 👈 STORE USER GLOBALLY
-
+                    console.log("Fetched user:", user);
                     if (user.is_superuser || user.is_staff) {
                         navigate('/admin/manage');
                     } else {

@@ -1,11 +1,13 @@
 import * as React from 'react';
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import AxiosInstance from './AxiosInstance';
 
 export default function Navbar({ content, user }) {
   const navigate = useNavigate();
-  const path = window.location.pathname;
+  const location = useLocation();
+  const path = location.pathname; 
 
   const logoutUser = () => {
     AxiosInstance.post('logoutall/', {}).then(() => {
@@ -21,7 +23,9 @@ export default function Navbar({ content, user }) {
   const handleInformCivilian = () => {
     alert("Help is on the way. Please stay calm and follow instructions.");
   };
-
+  if (user === undefined) {
+    return null; // don't render anything until user is loaded
+  }
   return (
     <>
       <AppBar position="static" sx={{ backgroundColor: '#b71c1c' }}>

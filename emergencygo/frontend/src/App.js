@@ -18,11 +18,12 @@ import EmergencyServices from './EmergencyServices';
 import EmergencyTutorials from './EmergencyTutorials';
 import NearbyEmergencyServices from './NearbyEmergencyServices';
 import AdminUsers from './components/AdminUsers';
+import { useUser } from './context/UserContext'; 
 
 
 
 function App() {
-  const [user, setUser] = useState(null);
+  const { user, setUser } = useUser();
   const [loading, setLoading] = useState(true);
   const location = useLocation();
 
@@ -51,7 +52,6 @@ function App() {
   if (loading) {
     return <p>Loading...</p>;
   }
-
   return (
     <>
       {noNavbar ? (
