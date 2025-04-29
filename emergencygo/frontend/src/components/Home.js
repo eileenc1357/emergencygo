@@ -1,94 +1,129 @@
-import { Box, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
-import AxiosInstance from './AxiosInstance';
-import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import Layout from './Layout';
+import React from 'react';
+import { Box, Typography, Button, Card, CardContent, Grid } from '@mui/material';
+import { useNavigate } from 'react-router-dom';
 
-const Home = () => {
-  const [allUsers, setAllUsers] = useState([]);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-
-  const fetchAllUsers = async () => {
-    try {
-      const response = await AxiosInstance.get('users/');
-      if (Array.isArray(response.data)) {
-        setAllUsers(response.data);
-      } else if (Array.isArray(response.data.users)) {
-        setAllUsers(response.data.users);
-      } else {
-        setAllUsers([]);
-      }
-    } catch (error) {
-      console.error('Error fetching all users:', error);
-    }
-  };
-
-  const fetchUserData = async () => {
-    try {
-      const token = localStorage.getItem('Token');
-      if (token) {
-        const response = await AxiosInstance.get('users/me/');
-        setCurrentUser(response.data);
-      }
-    } catch (error) {
-      console.error('Error fetching user data:', error);
-    }
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      await fetchAllUsers();
-      await fetchUserData();
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
-
-  if (loading) {
-    return <p>Loading data...</p>;
-  }
+function Home() {
+  const navigate = useNavigate();
 
   return (
-    <Layout>
-      <div>
-      {/* Users Table */}
-      <TableContainer component={Paper} sx={{ mt: 4 }}>
-        <Table sx={{ minWidth: 650 }} aria-label="users table">
-          <TableHead>
-            <TableRow>
-              <TableCell>ID</TableCell>
-              <TableCell>Email</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {allUsers.map((user) => (
-              <TableRow key={user.id}>
-                <TableCell>{user.id}</TableCell>
-                <TableCell>{user.email}</TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
-        </Table>
-      </TableContainer>
-
-      {/* Current User Info */}
-      {currentUser && (
-        <Paper elevation={3} sx={{ p: 3, m: 2 }}>
-          <div>Logged-in User ID: {currentUser.id}</div>
-          <div>Logged-in User Email: {currentUser.email}</div>
-        </Paper>
-      )}
-
-      {/* Admin Panel Link */}
-      {currentUser?.is_staff || currentUser?.is_superuser ? (
-        <Box sx={{ mt: 4 }}>
-          <Link to="/admin/ban">Go to Admin Panel to Ban Users</Link>
-        </Box>
-      ) : null}
-    </div>
-    </Layout>
+    <Box
+      sx={{
+        minHeight: '100vh',
+        backgroundImage: 'url(https://source.unsplash.com/featured/?emergency,help)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        p: 4,
+      }}
+    >
+      <Card
+        sx={{
+          maxWidth: 1120, // increased from 800 (40% larger)
+          width: '100%',
+          backgroundColor: 'rgba(255,255,255,0.9)',
+          borderRadius: 2,
+          boxShadow: 3,
+          p: 4, // increased padding for a roomier layout
+        }}
+      >
+        <CardContent>
+          <Typography
+            variant="h3"
+            gutterBottom
+            sx={{
+              color: '#b71c1c',
+              fontWeight: 'bold',
+              textAlign: 'center',
+              // Increase font size by about 40% (adjust values as needed)
+              fontSize: { xs: '2.8rem', sm: '3.9rem', md: '5.6rem' },
+            }}
+          >
+            Welcome to EmergencyGo
+          </Typography>
+          <Typography
+            variant="h6"
+            gutterBottom
+            sx={{
+              textAlign: 'center',
+              mb: 3,
+              // Increase description font size similarly
+              fontSize: { xs: '1.12rem', sm: '1.68rem', md: '2.24rem' },
+            }}
+          >
+            Your trusted companion in times of crisis. Stay informed, stay safe, and get help when you need it.
+          </Typography>
+          <Grid container spacing={2} justifyContent="center">
+            <Grid item>
+              <Button
+                variant="contained"
+                sx={{
+                  backgroundColor: '#b71c1c',
+                  '&:hover': { backgroundColor: '#7f0000' },
+                  color: '#fff',
+                  px: 3, // increased horizontal padding
+                  py: 1.5, // increased vertical padding
+                  fontSize: '1.2rem',
+                }}
+                onClick={() => navigate('/emergency-services')}
+              >
+                Emergency Services
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                sx={{
+                  borderColor: '#b71c1c',
+                  color: '#b71c1c',
+                  '&:hover': { borderColor: '#7f0000', color: '#7f0000' },
+                  px: 3,
+                  py: 1.5,
+                  fontSize: '1.2rem',
+                }}
+                onClick={() => navigate('/emergency-tutorials')}
+              >
+                Tutorials
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                sx={{
+                  borderColor: '#b71c1c',
+                  color: '#b71c1c',
+                  '&:hover': { borderColor: '#7f0000', color: '#7f0000' },
+                  px: 3,
+                  py: 1.5,
+                  fontSize: '1.2rem',
+                }}
+                onClick={() => navigate('/nearby-services')}
+              >
+                Nearby Services
+              </Button>
+            </Grid>
+            <Grid item>
+              <Button
+                variant="outlined"
+                sx={{
+                  borderColor: '#b71c1c',
+                  color: '#b71c1c',
+                  '&:hover': { borderColor: '#7f0000', color: '#7f0000' },
+                  px: 3,
+                  py: 1.5,
+                  fontSize: '1.2rem',
+                }}
+                onClick={() => navigate('/logout')}
+              >
+                Logout
+              </Button>
+            </Grid>
+          </Grid>
+        </CardContent>
+      </Card>
+    </Box>
   );
-};
+}
 
 export default Home;

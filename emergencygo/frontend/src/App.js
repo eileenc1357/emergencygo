@@ -9,14 +9,15 @@ import Navbar from './components/Navbar';
 import ProtectedRoute from './components/ProtectedRoutes';
 import PasswordResetRequest from './components/PasswordResetRequest';
 import PasswordReset from './components/PasswordReset';
-import AdminBanUser from './components/AdminBanUser'; // you imported this but weren't using it
-import AdminManageUsers from './components/AdminManageUsers'; // same here
+import AdminBanUser from './components/AdminBanUser';
+import AdminManageUsers from './components/AdminManageUsers';
 import AdminCreateUser from './pages/AdminCreateUser';
 import AdminEditUser from './pages/AdminEditUser';
 import AxiosInstance from './components/AxiosInstance';
 import EmergencyServices from './EmergencyServices';
 import EmergencyTutorials from './EmergencyTutorials';
 import NearbyEmergencyServices from './NearbyEmergencyServices';
+import AdminUsers from './components/AdminUsers';
 
 
 
@@ -53,30 +54,33 @@ function App() {
 
   return (
     <>
-      {!noNavbar && <Navbar user={user} />}
-      <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/request/password_reset" element={<PasswordResetRequest />} />
-        <Route path="/password-reset/:token" element={<PasswordReset />} />
-
-        {/* Protected Routes */}
-        <Route element={<ProtectedRoute user={user} />}>
-          <Route path="/home" element={<Home />} />
-          <Route path="/admin/create-user" element={<AdminCreateUser />} />
-          <Route path="/admin/edit-user/:id" element={<AdminEditUser />} />
-          <Route path="/admin/manage" element={<AdminManageUsers />} />
-          {/* You might want these too */}
-          <Route path="/admin/ban-user/:id" element={<AdminBanUser />} />
+      {noNavbar ? (
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/request/password_reset" element={<PasswordResetRequest />} />
+          <Route path="/password-reset/:token" element={<PasswordReset />} />
+        </Routes>
+      ) : (
+        <Navbar
+          content={
+            <Routes>
+              <Route element={<ProtectedRoute user={user} />}>
+                <Route path="/home" element={<Home />} />
+                <Route path="/admin/users" element={<AdminUsers />} />
+                <Route path="/admin/create-user" element={<AdminCreateUser />} />
+                <Route path="/admin/edit-user/:id" element={<AdminEditUser />} />
+                <Route path="/admin/manage" element={<AdminManageUsers />} />
+                <Route path="/admin/ban-user/:id" element={<AdminBanUser />} />
                 <Route path="/emergency-services" element={<EmergencyServices />} />
                 <Route path="/emergency-tutorials" element={<EmergencyTutorials />} />
                 <Route path="/nearby-services" element={<NearbyEmergencyServices />} />
-        </Route>
-
-        {/* Fallback Route */}
-        <Route path="*" element={<p>Page not found</p>} />
-      </Routes>
+              </Route>
+              <Route path="*" element={<p>Page not found</p>} />
+            </Routes>
+          } user={user}
+        />
+      )}
     </>
   );
 }
