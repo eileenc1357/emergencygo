@@ -33,3 +33,27 @@ def delete_emergency(request, pk):
         return Response({'message': 'Emergency deleted successfully!'})
     except EmergencyReport.DoesNotExist:
         return Response({'error': 'Emergency not found.'}, status=404)
+    
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def emergencies_nearby(request):
+    try:
+        lat = float(request.query_params.get('lat'))
+        lon = float(request.query_params.get('lon'))
+        radius = 0.05  # about 5km
+
+        south = lat - radius
+        north = lat + radius
+        west = lon - radius
+        east = lon + radius
+
+        emergencies = EmergencyReport.objects.filter(
+            latitude__gte=south,
+            latitude__lte=north,
+            longitude__gte=west,
+            longitude__lte=east,
+        )
+
+        return Response({'count': emergencies.count()})
+    except Exception as e:
+        return Response({'error': str(e)}, status=400)
