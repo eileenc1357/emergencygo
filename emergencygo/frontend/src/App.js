@@ -19,6 +19,7 @@ import EmergencyTutorials from './EmergencyTutorials';
 import NearbyEmergencyServices from './NearbyEmergencyServices';
 import AdminUsers from './components/AdminUsers';
 import { useUser } from './context/UserContext'; 
+import ReportEmergency from './components/ReportEmergency';
 
 
 
@@ -75,6 +76,7 @@ function App() {
                 <Route path="/emergency-services" element={<EmergencyServices />} />
                 <Route path="/emergency-tutorials" element={<EmergencyTutorials />} />
                 <Route path="/nearby-services" element={<NearbyEmergencyServices />} />
+                <Route path="/report-emergency" element={<ReportEmergency />} />
               </Route>
               <Route path="*" element={<p>Page not found</p>} />
             </Routes>

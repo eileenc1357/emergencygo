@@ -44,6 +44,14 @@ export default function Navbar({ content, user }) {
           <Button
             color="inherit"
             component={NavLink}
+            to="/report-emergency"
+            sx={{ '&.active': { fontWeight: 'bold', textDecoration: 'underline' } }}
+          >
+            Report Emergency
+          </Button>
+          <Button
+            color="inherit"
+            component={NavLink}
             to="/emergency-services"
             sx={{ '&.active': { fontWeight: 'bold', textDecoration: 'underline' } }}
           >
