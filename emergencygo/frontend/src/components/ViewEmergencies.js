@@ -1,9 +1,22 @@
 import React, { useEffect, useState } from 'react';
 import AxiosInstance from './AxiosInstance';
-import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
+import { Box, Typography, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
 
 function ViewEmergencies() {
   const [emergencies, setEmergencies] = useState([]);
+
+  const handleDelete = async (id) => {
+    if (window.confirm('Are you sure you want to delete this emergency report?')) {
+      try {
+        await AxiosInstance.delete(`emergency/delete-emergency/${id}/`);
+        setEmergencies((prev) => prev.filter((e) => e.id !== id)); // Remove deleted item from list
+        alert('Emergency deleted successfully!');
+      } catch (error) {
+        console.error('Error deleting emergency:', error);
+        alert('Failed to delete emergency.');
+      }
+    }
+  };
 
   useEffect(() => {
     const fetchEmergencies = async () => {
@@ -46,6 +59,15 @@ function ViewEmergencies() {
                 <TableCell>{emergency.latitude}, {emergency.longitude}</TableCell>
                 <TableCell>{emergency.details}</TableCell>
                 <TableCell>{new Date(emergency.timestamp).toLocaleString()}</TableCell>
+                <TableCell>
+                    <Button 
+                    variant="contained" 
+                    color="error" 
+                    onClick={() => handleDelete(emergency.id)}
+                    >
+                    Delete
+                    </Button>
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>

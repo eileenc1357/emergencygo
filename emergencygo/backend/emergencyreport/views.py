@@ -23,3 +23,13 @@ def list_emergencies(request):
     emergencies = EmergencyReport.objects.all().order_by('-timestamp')  # newest first
     serializer = EmergencyReportSerializer(emergencies, many=True)
     return Response(serializer.data)
+
+@api_view(['DELETE'])
+@permission_classes([IsAdminUser])
+def delete_emergency(request, pk):
+    try:
+        emergency = EmergencyReport.objects.get(pk=pk)
+        emergency.delete()
+        return Response({'message': 'Emergency deleted successfully!'})
+    except EmergencyReport.DoesNotExist:
+        return Response({'error': 'Emergency not found.'}, status=404)
