@@ -14,6 +14,11 @@ import AdminManageUsers from './components/AdminManageUsers'; // same here
 import AdminCreateUser from './pages/AdminCreateUser';
 import AdminEditUser from './pages/AdminEditUser';
 import AxiosInstance from './components/AxiosInstance';
+import EmergencyServices from './EmergencyServices';
+import EmergencyTutorials from './EmergencyTutorials';
+import NearbyEmergencyServices from './NearbyEmergencyServices';
+
+
 
 function App() {
   const [user, setUser] = useState(null);
@@ -64,6 +69,9 @@ function App() {
           <Route path="/admin/manage" element={<AdminManageUsers />} />
           {/* You might want these too */}
           <Route path="/admin/ban-user/:id" element={<AdminBanUser />} />
+                <Route path="/emergency-services" element={<EmergencyServices />} />
+                <Route path="/emergency-tutorials" element={<EmergencyTutorials />} />
+                <Route path="/nearby-services" element={<NearbyEmergencyServices />} />
         </Route>
 
         {/* Fallback Route */}

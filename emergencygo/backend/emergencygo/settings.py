@@ -35,6 +35,10 @@ INSTALLED_APPS = [
     'users', 
     'knox', 
     'django_rest_passwordreset',
+    'static_services',
+    'adminpanel',
+    'emergencies',
+    'responders',
 ]
 
 MIDDLEWARE = [
